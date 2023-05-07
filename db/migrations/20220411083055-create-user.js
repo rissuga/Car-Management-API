@@ -16,7 +16,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       encryptedPassword: {
-        type: Sequelize.JSON
+        type: Sequelize.STRING
+      },
+      userRole: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

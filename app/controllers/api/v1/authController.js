@@ -7,6 +7,23 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
 
+  registerAdmin(req, res) {
+    userService
+      .createAdmin(req.body)
+      .then((user) => {
+        res.status(201).json({
+          status: "OK",
+          data: user,
+        });
+      })
+      .catch((err) => {
+        res.status(422).json({
+          status: "FAIL",
+          message: err.message,
+        });
+      });
+  },
+
   register(req, res) {
     userService
       .create(req.body)
@@ -118,8 +135,44 @@ module.exports = {
       res.status(401).json({
         message: "Unauthorize",
       });
-      
+    
     }
+  },
 
+  isSuperAdmin(req,res,next) {
+    try{
+    const{userRole} = req.user;
+
+    if(userRole === 'superadmin') return next();
+
+    res.status(403).json({
+      message: "Have no accsess",
+    });
+
+    }catch(err){
+      console.log(err);
+      res.status(401).json({
+        message: "Unauthorize",
+      });
+    
+    }
+  },
+
+  checkRole(req,res,next){
+    try{
+      const{userRole} = req.user;
+
+      if(userRole === 'superadmin'){
+        return next();
+      }else if(userRole === 'admin'){
+        return next();
+      }else{
+        throw new Error();
+      }
+    }catch(err){
+      res.status(401).json({
+        message: "Have no acsess bruh",
+      });
+    }
   }
 };

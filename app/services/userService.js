@@ -25,6 +25,30 @@ const createToken = (payload) => {
 }
 
 module.exports = {
+  async createAdmin(requestBody) {
+    const {name, email} = requestBody;
+    const encryptedPassword = await encryptPassword(requestBody.encryptedPassword);
+
+    const userEmail = await userRepository.finsUserByEmail(email);
+
+    if(userEmail){
+      return{
+        data: null,
+        message: "Email has been taken !!!",
+        status: "Failed"
+      };
+    }
+
+    newUser = await userRepository.create({ name, email, encryptedPassword, userRole: 'admin' });
+    if(!userEmail){
+      return{
+        data: newUser,
+        status: "Success"
+      }
+    }
+
+  },
+
   async create(requestBody) {
     const {name, email} = requestBody;
     const encryptedPassword = await encryptPassword(requestBody.encryptedPassword);
@@ -39,7 +63,7 @@ module.exports = {
       };
     }
 
-    newUser = await userRepository.create({ name, email, encryptedPassword });
+    newUser = await userRepository.create({ name, email, encryptedPassword, userRole: 'member' });
     if(!userEmail){
       return{
         data: newUser,
@@ -76,7 +100,8 @@ module.exports = {
     const token = createToken({
       id: user.id, 
       email: user.email,
-      name: user.name
+      name: user.name,
+      userRole: user.userRole
     })
 
     user.token = token;
