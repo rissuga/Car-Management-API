@@ -12,7 +12,9 @@ Lalu untuk menjalankan development server, kalian tinggal jalanin salah satu scr
 yarn develop
 ```
 
-## Database Management
+## ERD
+
+![Users One to Many Cars](https://user-images.githubusercontent.com/72052154/236868111-b54adc84-1dd2-4628-b76a-46d6ddd30690.png)
 
 ### Email: superadmin@gmail.com
 
