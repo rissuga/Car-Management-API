@@ -14,4 +14,6 @@ yarn develop
 
 ## Database Management
 
+### Email: superadmin@gmail.com
 
+### Password: superadmin123
