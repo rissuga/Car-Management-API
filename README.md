@@ -1,7 +1,6 @@
 # Binar: Express.js
 
-Repository ini ditujukan sebagai boilerplate dalam membuat sebuah HTTP Server menggunakan Express.js
-Repository ini menggunakan Service Repository Pattern, yang artinya di dalam repository ini terdapat modul model, controller, service, dan repository.
+Berikut merupakan dokumentasi API dari Binar Car Rental yang menyediakan CRUD yang hanya dilakukan oleh superadmin dan admin. Tidak hanya itu pada dokumentasi ini juga menyediakan API login dan register untuk user dan terdapat fitur create admin yang hanya bisa dilakukan oleh superadmin
 
 ## Getting Started
 
@@ -15,10 +14,4 @@ yarn develop
 
 ## Database Management
 
-Di dalam repository ini sudah terdapat beberapa script yang dapat digunakan dalam memanage database, yaitu:
 
-- `yarn db:create` digunakan untuk membuat database
-- `yarn db:drop` digunakan untuk menghapus database
-- `yarn db:migrate` digunakan untuk menjalankan database migration
-- `yarn db:seed` digunakan untuk melakukan seeding
-- `yarn db:rollback` digunakan untuk membatalkan migrasi terakhir
