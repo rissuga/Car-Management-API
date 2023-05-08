@@ -47,13 +47,6 @@ module.exports = {
     const {name, price, size, image, available} = request.body;
     const {id} = request.user;
 
-    if (!name || !price || !size || !available || !{image: result.url}){
-      return{
-        data: null,
-        message: "Complete your input!",
-        status: "Failed"
-      }
-    }
 
     if (!["small", "medium", "large"].includes(size.toLowerCase())){
       return{
@@ -72,12 +65,6 @@ module.exports = {
     }
 
     return carRepository.update(idCar, {name, price, size, image: result.url, available, updatedBy: id});
-    if(name || price || size || available || image){
-      return{
-        data: updatedCar,
-        status: "Success"
-      }
-    }
    
   },
 
@@ -86,6 +73,7 @@ module.exports = {
     try {
       await carRepository.updateCar(carId, { deletedBy });
       return await carRepository.delete(carId);
+      
     } catch (error) {
       return{
         message: ( "failed delete car!")

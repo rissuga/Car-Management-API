@@ -21,8 +21,6 @@ apiRouter.delete("/api/v1/cars/admin/:id",controllers.api.v1.authController.auth
 
 apiRouter.get("/api/v1/cars/admin/:id",controllers.api.v1.authController.authorize,controllers.api.v1.authController.checkRole,controllers.api.v1.carController.showDetail);
 
-// apiRouter.get("/api/v1/cars-admin",controllers.api.v1.authController.authorize,controllers.api.v1.authController.checkRole,controllers.api.v1.carController.getDetailAllCar);
-
 apiRouter.get("/api/v1/cars",controllers.api.v1.authController.authorize,controllers.api.v1.carController.list);
 apiRouter.get("/api/v1/cars/:id",controllers.api.v1.authController.authorize,controllers.api.v1.carController.getCarById);
 

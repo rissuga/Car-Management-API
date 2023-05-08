@@ -151,21 +151,5 @@ module.exports = {
     }
   },
 
-  // destroy(req, res) {
-  //   carService
-  //     .delete(req.params.id, req)
-  //     .then((car) => {
-  //       res.status(201).json({
-  //         status: "Delete Success",
-  //         data: car
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       res.status(422).json({
-  //         status: "FAIL",
-  //         message: err.message,
-  //       });
-  //     });
-  // },
 }
 
