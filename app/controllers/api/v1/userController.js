@@ -86,4 +86,24 @@ module.exports = {
         });
       });
   },
+
+  currentUser(req,res) {
+    try {
+      const user = req.user; //from authorization userMiddleware
+      res.status(200).json({
+        status: "OK",
+        message: "Success",
+        data: {
+          name: user.name,
+          email: user.email,
+          userRole: user.userRole,
+        },
+      });
+    } catch (err) {
+      res.status(err.statusCode || 404).json({
+        status: "FAIL",
+        message: err.message,
+      });
+    }
+  }
 };

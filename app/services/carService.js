@@ -36,7 +36,6 @@ module.exports = {
       if(name || price || size || available || image){
         return{
           data: newCar,
-          status: "Success"
         }
       }
 
@@ -72,7 +71,7 @@ module.exports = {
       }
     }
 
-    updatedCar = await carRepository.update(idCar, {name, price, size, image: result.url, available, updatedBy: id});
+    return carRepository.update(idCar, {name, price, size, image: result.url, available, updatedBy: id});
     if(name || price || size || available || image){
       return{
         data: updatedCar,
@@ -96,11 +95,82 @@ module.exports = {
 
   async list() {
     try {
-      const cars = await carRepository.findAll();
+      const payload = await carRepository.findAll();
       const carCount = await carRepository.getTotalPost();
 
+      const carPayload =
+      (await payload.length) < 1
+        ? []
+        : payload.map((car) => {
+            return {
+              id: car?.dataValues?.id,
+              name: car?.dataValues?.name,
+              price: car?.dataValues?.price,
+              size: car?.dataValues?.size,
+              image: car?.dataValues?.image,
+              available: car?.dataValues?.available,
+              createdAt: car?.dataValues?.createdAt,
+              updatedAt: car?.dataValues?.updatedAt,
+            };
+          });
+
       return {
-        data: cars,
+        data:carPayload,
+        count: carCount,
+      };
+    } catch (err) {
+      throw err;
+    }
+  },
+
+
+  async getCarById(id) {
+    try {
+      const payload = await carRepository.find(id);
+     
+      const carPayload = {
+          id: payload?.id,
+          name: payload?.name,
+          price: payload?.price,
+          size: payload?.size,
+          image: payload?.image,
+          available: payload?.available,
+          createdAt: payload?.createdAt,
+          updatedAt: payload?.updatedAt,
+        }
+        return carPayload;
+      
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async getDetailAllCar() {
+    try {
+      const payload = await carRepository.findAll();
+      const carCount = await carRepository.getTotalPost();
+
+      const carPayload =
+      (await payload.length) < 1
+        ? []
+        : payload.map((car) => {
+            return {
+              id: car?.dataValues?.id,
+              name: car?.dataValues?.name,
+              price: car?.dataValues?.price,
+              size: car?.dataValues?.size,
+              image: car?.dataValues?.image,
+              available: car?.dataValues?.available,
+              createdBy: car?.dataValues.createdBy,
+              updatedBy: car?.dataValues?.updatedBy,
+              deletedBy: car?.dataValues?.deletedBy,
+              createdAt: car?.dataValues?.createdAt,
+              updatedAt: car?.dataValues?.updatedAt,
+            };
+          });
+
+      return {
+        data:carPayload,
         count: carCount,
       };
     } catch (err) {
@@ -109,9 +179,7 @@ module.exports = {
   },
 
   async get(id) {
-
       return carRepository.find(id);
-    
   },
 
   async delete(carId, request) {

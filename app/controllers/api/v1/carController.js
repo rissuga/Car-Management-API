@@ -40,6 +40,41 @@ module.exports = {
       });
   },
 
+  getCarById(req, res) {
+    carService
+      .getCarById(req.params.id)
+      .then(( car ) => {
+        res.status(200).json({
+          status: "OK",
+          data: car,
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          status: "FAIL",
+          message: err.message,
+        });
+      });
+  },
+
+  getDetailAllCar(req, res) {
+    carService
+      .getDetailAllCar()
+      .then(({ data, count }) => {
+        res.status(200).json({
+          status: "OK",
+          data: { car: data },
+          meta: { total: count },
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          status: "FAIL",
+          message: err.message,
+        });
+      });
+  },
+
   showDetail(req, res) {
     carService
     
@@ -64,7 +99,7 @@ module.exports = {
       .then((car) => {
         res.status(201).json({
           status: "OK",
-          data: car,
+          message: "Data updated success"
         });
       })
       .catch((err) => {

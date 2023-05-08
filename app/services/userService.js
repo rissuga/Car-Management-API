@@ -43,7 +43,6 @@ module.exports = {
     if(!userEmail){
       return{
         data: newUser,
-        status: "Success"
       }
     }
 
@@ -67,7 +66,6 @@ module.exports = {
     if(!userEmail){
       return{
         data: newUser,
-        status: "Success"
       }
     }
 
@@ -126,11 +124,27 @@ module.exports = {
 
   async list() {
     try {
-      const users = await userRepository.findAll();
+      const payload = await userRepository.findAll();
       const userCount = await userRepository.getTotalPost();
 
+      const carPayload =
+      (await payload.length) < 1
+        ? []
+        : payload.map((car) => {
+            return {
+              id: car?.dataValues?.id,
+              name: car?.dataValues?.name,
+              price: car?.dataValues?.price,
+              size: car?.dataValues?.size,
+              image: car?.dataValues?.image,
+              available: car?.dataValues?.available,
+              createdAt: car?.dataValues?.createdAt,
+              updatedAt: car?.dataValues?.updatedAt,
+            };
+          });
+
       return {
-        data: users,
+        data: carPayload,
         count: userCount,
       };
     } catch (err) {

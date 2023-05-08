@@ -22,11 +22,15 @@ module.exports = {
   },
 
   find(id) {
-    return Car.findByPk(id);
+    return Car.findByPk(id,{
+      paranoid:false
+    });
   },
 
   findAll() {
-    return Car.findAll();
+    return Car.findAll({
+      paranoid:false
+    });
   },
 
   getTotalPost() {

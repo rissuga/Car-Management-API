@@ -1,0 +1,1519 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Challenge 5 Car Management API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users API Collection"
+    },
+    {
+      "name": "Cars",
+      "description": "Cars API Collection"
+    }
+  ],
+  "paths": {
+    "/api/v1/users/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register new user for member",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "risa"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "risa@gmail.com"
+                  },
+                  "encryptedPassword": {
+                    "type": "string",
+                    "example": "risa123"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Status member successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "risa"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "risa@gmail.com"
+                        },
+                        "encryptedPassword": {
+                          "type": "string",
+                          "example": "$2a$10$sHoE3SXDnx.skpO4.PZwY.AvZazu5xL5RxUsfsvI0evII3HE7TxeK"
+                        },
+                        "userRole": {
+                          "type": "string",
+                          "example": "member"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-05-08T09:44:28.193Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-05-08T09:44:28.193Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed error because bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmptyName"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EmptyEmail"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EmptyPassword"
+                    }
+                  ]
+                },
+                "examples": {
+                  "emptyName": {
+                    "summary": "example empty name",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "name can't be empty!"
+                    }
+                  },
+                  "emptyEmail": {
+                    "summary": "example empty email",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "email can't be empty!"
+                    }
+                  },
+                  "emptyEmailPassword": {
+                    "summary": "example empty password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "password can't be empty!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Failed because email already taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmailAlreadyTaken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "emailAlreadyTaken": {
+                    "summary": "example email already taken",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "user with email risa@gmail.com already taken!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login for all role user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin123"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Status login success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "risa"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "risa@gmail.com"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIm5hbWUiOiJyaXNhIHN1cGVyIGFkbWluIiwidXNlclJvbGUiOiJzdXBlcmFkbWluIiwiaWF0IjoxNjgzNTQ1NzA3fQ.-FoJAHQWM1it9jW3hY6CJQQslTpcwckxUQY8RNhH9TU"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed error because bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmptyEmail"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EmptyPassword"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WrongPassword"
+                    }
+                  ]
+                },
+                "examples": {
+                  "emptyEmail": {
+                    "summary": "example empty email",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "email can't be empty!"
+                    }
+                  },
+                  "emptyEmailPassword": {
+                    "summary": "example empty password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "password can't be empty!"
+                    }
+                  },
+                  "wrongPassword": {
+                    "summary": "example wrong password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "wrong password!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed error because user not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/current-user": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get current user information ",
+        "description": "to get information from the user who is currently logged in",
+        "responses": {
+          "200": {
+            "description": "Status success get user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin@gmail.com"
+                        },
+                        "userRole": {
+                          "type": "string",
+                          "example": "Admin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed error because bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/RequiredAuth"
+                    }
+                  ]
+                },
+                "examples": {
+                  "requiredAuth": {
+                    "summary": "example empty bearer token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "required authorization!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Failed because token error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/InvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "example invalid token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "invalid token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/register-admin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Register new admin by super admin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "member"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "member@gmail.com"
+                  },
+                  "encryptedPassword": {
+                    "type": "string",
+                    "example": "member123"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "status admin successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 5
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "member"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "member@gmail.com"
+                        },
+                        "encryptedPassword": {
+                          "type": "string",
+                          "example": "$2a$10$sHoE3SXDnx.skpO4.PZwY.AvZazu5xL5RxUsfsvI0evII3HE7TxeK"
+                        },
+                        "userRole": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-05-08T09:44:28.193Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-05-08T09:44:28.193Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed error because bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmptyName"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EmptyEmail"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MinimumPassword"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EmptyPassword"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WrongPassword"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RequiredAuth"
+                    }
+                  ]
+                },
+                "examples": {
+                  "emptyName": {
+                    "summary": "example empty name",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "name can't be empty!"
+                    }
+                  },
+                  "emptyEmail": {
+                    "summary": "example empty email",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "email can't be empty!"
+                    }
+                  },
+                  "minimumPassword": {
+                    "summary": "example minimum password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "minimum password must be 8 character or more!"
+                    }
+                  },
+                  "emptyEmailPassword": {
+                    "summary": "example empty password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "password can't be empty!"
+                    }
+                  },
+                  "wrongPassword": {
+                    "summary": "example wrong password",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "wrong password!"
+                    }
+                  },
+                  "requiredAuth": {
+                    "summary": "example empty bearer token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "required authorization!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Failed error because forbidden access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DontHavePermit"
+                    }
+                  ]
+                },
+                "examples": {
+                  "dontHavePermit": {
+                    "summary": "example invalid role access",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "You don't have permission to access!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Failed because email already taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmailAlreadyTaken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "emailAlreadyTaken": {
+                    "summary": "example email already taken",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "user with email adminbaru@gmail.com already taken!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Failed error because invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/InvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "example invalid token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "invalid token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get list users for super admin",
+        "description": "to get information from the list of users",
+        "responses": {
+          "200": {
+            "description": "Status success get all user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "Users": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "77cc3c5d-3ada-4993-a6a2-7f95c6529748"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "admin"
+                              },
+                              "email": {
+                                "type": "string",
+                                "example": "admin@gmail.com"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "Admin"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2023-05-06T07:41:44.381Z"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "example": "2023-05-06T07:41:44.381Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 8
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed error because bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/RequiredAuth"
+                    }
+                  ]
+                },
+                "examples": {
+                  "requiredAuth": {
+                    "summary": "example empty bearer token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "required authorization!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Failed because token error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/InvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "example invalid token",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "invalid token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cars": {
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Create cars data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "price",
+                  "size",
+                  "image"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "size": {
+                    "type": "string"
+                  },
+                  "available": {
+                    "type": "string",
+                    "example" : "yes"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "profileImage": {
+                  "contentType": "image/png, image/jpeg, image/jpg"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Car succesfully created",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "price",
+                    "size",
+                    "image"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "size": {
+                      "type": "string"
+                    },
+                    "available": {
+                      "type": "string",
+                      "example" : "yes"
+                    },
+                    "image": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                },
+                "encoding": {
+                  "profileImage": {
+                    "contentType": "image/png, image/jpeg, image/jpg"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Failed error because forbidden access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DontHavePermit"
+                    }
+                  ]
+                },
+                "examples": {
+                  "dontHavePermit": {
+                    "summary": "example invalid role access",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "You don't have permission to access!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get all cars for all user role",
+        "description": "To retrive the list of cars",
+        "responses": {
+          "200": {
+            "description": "If data successfully retrived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "77cc3c5d-3ada-4993-a6a2-7f95c6529748"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Karimun Racing"
+                          },
+                          "price": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 100000
+                          },
+                          "size": {
+                            "type": "string",
+                            "example": "small"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "https://res.cloudinary.com/dscsxprie/image/upload/v1683369867/hehe/qmo85l0wrqtqcisxeafj.jpg"
+                          },
+                          "available": {
+                            "type": "string",
+                            "example": "yes"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-05-06T07:41:44.381Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-05-06T07:41:44.381Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If failed to retrive the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "FAIL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cars/admin/{id}": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get detail a car for admin",
+        "description": "To retrive car by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If data successfully retrived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Karimun Racing"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 100000
+                        },
+                        "size": {
+                          "type": "string",
+                          "example": "small"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "https://res.cloudinary.com/dscsxprie/image/upload/v1683369867/hehe/qmo85l0wrqtqcisxeafj.jpg"
+                        },
+                        "available": {
+                          "type": "string",
+                          "example": "yes"
+                        },
+                        "createdBy": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 1
+                        },
+                        "updatedBy": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 1
+                        },
+                        "deletedBy": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 1
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-05-06T07:41:44.381Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-05-06T07:41:44.381Z"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "example": "2023-05-06T07:41:44.381Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If failed to retrive the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "FAIL"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "car not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Update a car",
+        "description": "To update a car by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the Car",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "price",
+                  "size",
+                  "image"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "size": {
+                    "type": "string"
+                  },
+                  "available": {
+                    "type": "string",
+                    "example" : "yes"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "profileImage": {
+                  "contentType": "image/png, image/jpeg, image/jpg"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If data successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data updated success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Failed error because forbidden access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DontHavePermit"
+                    }
+                  ]
+                },
+                "examples": {
+                  "dontHavePermit": {
+                    "summary": "example invalid role access",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "You don't have permission to access!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If failed to retrive the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "FAIL"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "car not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Delete a car",
+        "description": "To delete a car by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the car",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If data successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Failed error because forbidden access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/DontHavePermit"
+                    }
+                  ]
+                },
+                "examples": {
+                  "dontHavePermit": {
+                    "summary": "example invalid role access",
+                    "value": {
+                      "status": "FAIL",
+                      "message": "You don't have permission to access!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If failed to retrive the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "FAIL"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "car not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cars/{id}": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get a detail car for all User",
+        "description": "Get a detailed car for all user role",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the car",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 2
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If data successfully retrived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 2
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Karimun Racing"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": 100000
+                        },
+                        "size": {
+                          "type": "string",
+                          "example": "small"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "https://res.cloudinary.com/dscsxprie/image/upload/v1683369867/hehe/qmo85l0wrqtqcisxeafj.jpg"
+                        },
+                        "available": {
+                          "type": "string",
+                          "example": "yes"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-05-06T07:41:44.381Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-05-06T07:41:44.381Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If failed to retrive the data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "FAIL"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "car not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RequiredAuth": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "DontHavePermit": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "InvalidToken": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EmptyName": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EmptyEmail": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EmailAlreadyTaken": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "MinimumPassword": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EmptyPassword": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "WrongPassword": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerToken": {
+        "description": "Note: Token required, you may to login first then paste token code here",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
