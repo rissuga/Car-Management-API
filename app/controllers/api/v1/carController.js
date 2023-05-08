@@ -5,6 +5,23 @@
 const carService = require("../../../services/carService");
 
 module.exports = {
+  create(req, res) {
+    carService
+      .createCar(req)
+      .then((car) => {
+        res.status(201).json({
+          status: "OK",
+          data: car,
+        });
+      })
+      .catch((err) => {
+        res.status(422).json({
+          status: "FAIL",
+          message: err.message,
+        });
+      });
+  },
+
   list(req, res) {
     carService
       .list()
@@ -21,11 +38,28 @@ module.exports = {
           message: err.message,
         });
       });
-},
+  },
 
-  create(req, res) {
+  showDetail(req, res) {
     carService
-      .create(req.body)
+      .get(req.params.id)
+      .then((car) => {
+        res.status(200).json({
+          status: "OK",
+          data: car,
+        });
+      })
+      .catch((err) => {
+        res.status(422).json({
+          status: "FAIL",
+          message: err.message,
+        });
+      });
+  },
+
+  update(req, res) {
+    carService
+      .updateCar(req.params.id, req)
       .then((car) => {
         res.status(201).json({
           status: "OK",
@@ -40,50 +74,62 @@ module.exports = {
       });
   },
 
-  update(req, res) {
-    postService
-      .update(req.params.id, req.body)
-      .then(() => {
-        res.status(200).json({
-          status: "OK",
-        });
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
+  async destroy(req,res){
+    try {
+      const car = req.car; 
+      const deletedBy = req.user.id; 
+      await carService.deleteCar(car.id, deletedBy);
+      res.status(200).json({
+        status: "OK",
+        message: "Success",
       });
+    } catch (err) {
+      res.status(err.statusCode).json({
+        status: "FAIL",
+        message: err.message,
+      });
+    }
   },
 
-  show(req, res) {
-    postService
-      .get(req.params.id)
-      .then((post) => {
-        res.status(200).json({
-          status: "OK",
-          data: post,
-        });
-      })
-      .catch((err) => {
-        res.status(422).json({
+  async checkCar (req, res, next) {
+    try {
+      const id = req.params.id;
+      const carPayload = await carService.get(id);
+  
+      if (!carPayload) {
+        res.status(404).json({
           status: "FAIL",
-          message: err.message,
+          message: `car not found!`,
         });
+        return;
+      }
+  
+      req.car = carPayload;
+  
+      next();
+    } catch (err) {
+      res.status(500).json({
+        status: "FAIL",
+        message: "server error!",
       });
+    }
   },
 
-  destroy(req, res) {
-    postService
-      .delete(req.params.id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch((err) => {
-        res.status(422).json({
-          status: "FAIL",
-          message: err.message,
-        });
-      });
-  },
-};
+  // destroy(req, res) {
+  //   carService
+  //     .delete(req.params.id, req)
+  //     .then((car) => {
+  //       res.status(201).json({
+  //         status: "Delete Success",
+  //         data: car
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       res.status(422).json({
+  //         status: "FAIL",
+  //         message: err.message,
+  //       });
+  //     });
+  // },
+}
+

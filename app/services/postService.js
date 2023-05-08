@@ -1,4 +1,5 @@
 const postRepository = require("../repositories/postRepository");
+const userRepository = require("../repositories/userRepository");
 
 module.exports = {
   create(request) {
@@ -8,8 +9,12 @@ module.exports = {
     return postRepository.create({title,body,createdBy: id} );
   },
 
-  update(id, requestBody) {
-    return postRepository.update(id, requestBody);
+  async update(idPost, request) {
+    const {title,body} = request.body;
+    const {id} = request.user;
+
+    return postRepository.update(idPost,{title,body,updatedBy: id});
+    
   },
 
   delete(id) {

@@ -42,7 +42,7 @@ module.exports = {
 
   update(req, res) {
     postService
-      .update(req.params.id, req.body)
+      .update(req.params.id, req)
       .then(() => {
         res.status(200).json({
           status: "OK",

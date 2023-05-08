@@ -14,16 +14,34 @@ module.exports = {
       body: {
         type: Sequelize.TEXT,
       },
-      createdBy: {
-        type:  Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'Users'
-          },
-          key: "id"
-        }
-      },
+      // createdBy: {
+      //   type:  Sequelize.INTEGER,
+      //   allowNull: false,
+      //   references: {
+      //     model: {
+      //       tableName: 'Users'
+      //     },
+      //     key: "id"
+      //   }
+      // },
+      // updatedBy: {
+      //   type:  Sequelize.INTEGER,
+      //   references: {
+      //     model: {
+      //       tableName: 'Users'
+      //     },
+      //     key: "id"
+      //   }
+      // },
+      // deletedBy: {
+      //   type:  Sequelize.INTEGER,
+      //   references: {
+      //     model: {
+      //       tableName: 'Users'
+      //     },
+      //     key: "id"
+      //   }
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -33,5 +33,12 @@ module.exports = {
     return User.findOne({
       where : {email}
     })
+  },
+  finsUserById(id) {
+    return User.findOne({
+      where : {id}
+    })
   }
+
+  
 };

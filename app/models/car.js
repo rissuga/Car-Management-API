@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User, {
+        foreignKey: 'createdBy',
+        foreignKey: 'updatedBy',
+        foreignKey: 'deletedBy'
+      })
     }
   }
   Car.init({
@@ -18,10 +22,33 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     size: DataTypes.STRING,
     image: DataTypes.STRING,
-    available: DataTypes.STRING
+    available: DataTypes.STRING,
+    createdBy : {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: "id"
+      }
+    },
+    updatedBy : {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: "id"
+      }
+    },
+    deletedBy : {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: "id"
+      }
+    },
   }, {
     sequelize,
     modelName: 'Car',
+    paranoid: true,
   });
   return Car;
 };
