@@ -1,27 +1,14 @@
 const carRepository = require("../repositories/carRepository");
-
-const notNullCar = async (request) => {
-  try{
-    const {name, price, size, image, available} = request.body
-
-    if (!name || !price || !size || !available || !image)
-    throw new ApplicationError(400, "please complete all input!");
-    
-    
-  }catch(err){
-    return err;
-  }
-}
-
+const {cloudinary} = require("../../utils/cloudinary");
 
 
 module.exports = {
   async createCar(request) {
-    
+      const result = await cloudinary.uploader.upload(request.file.path);
       const {name, price, size, image, available} = request.body
       const {id} = request.user;
 
-      if (!name || !price || !size || !available || !image){
+      if (!name || !price || !size || !available || !{image:result.url}){
         return{
           data: null,
           message: "Complete your input!",
@@ -45,8 +32,7 @@ module.exports = {
         }
       }
       
-
-      newCar = await carRepository.create({name, price, size, image, available, createdBy: id});
+      newCar = await carRepository.create({name, price, size, image: result.url, available, createdBy: id});
       if(name || price || size || available || image){
         return{
           data: newCar,
@@ -57,11 +43,12 @@ module.exports = {
   },
 
   async updateCar(idCar, request) {
-    
+
+    const result = await cloudinary.uploader.upload(request.file.path);
     const {name, price, size, image, available} = request.body;
     const {id} = request.user;
 
-    if (!name || !price || !size || !available || !image){
+    if (!name || !price || !size || !available || !{image: result.url}){
       return{
         data: null,
         message: "Complete your input!",
@@ -85,7 +72,7 @@ module.exports = {
       }
     }
 
-    updatedCar = await carRepository.update(idCar, {name, price, size, image, available, updatedBy: id});
+    updatedCar = await carRepository.update(idCar, {name, price, size, image: result.url, available, updatedBy: id});
     if(name || price || size || available || image){
       return{
         data: updatedCar,
@@ -122,7 +109,9 @@ module.exports = {
   },
 
   async get(id) {
-    return carRepository.find(id);
+
+      return carRepository.find(id);
+    
   },
 
   async delete(carId, request) {

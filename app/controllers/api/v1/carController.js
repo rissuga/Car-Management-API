@@ -42,6 +42,7 @@ module.exports = {
 
   showDetail(req, res) {
     carService
+    
       .get(req.params.id)
       .then((car) => {
         res.status(200).json({
@@ -105,7 +106,7 @@ module.exports = {
       }
   
       req.car = carPayload;
-  
+
       next();
     } catch (err) {
       res.status(500).json({

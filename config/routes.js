@@ -1,6 +1,7 @@
 const express = require("express");
 const controllers = require("../app/controllers");
-
+const uploadImage = require('../utils/multer')
+const multer = require('multer');
 
 const apiRouter = express.Router();
 
@@ -24,12 +25,14 @@ apiRouter.post(
   "/api/v1/cars",
   controllers.api.v1.authController.authorize,
   controllers.api.v1.authController.checkRole,
+  uploadImage.single('image'),
   controllers.api.v1.carController.create);
 
 apiRouter.put(
   "/api/v1/cars/:id",
   controllers.api.v1.authController.authorize,
   controllers.api.v1.authController.checkRole,
+  uploadImage.single('image'),
   controllers.api.v1.carController.update);
 
 apiRouter.delete(
@@ -39,7 +42,12 @@ apiRouter.delete(
   controllers.api.v1.carController.checkCar,
   controllers.api.v1.carController.destroy);
 
-apiRouter.get("/api/v1/cars/:id",controllers.api.v1.carController.checkCar,controllers.api.v1.carController.showDetail);
+apiRouter.get(
+  "/api/v1/cars/:id",
+  controllers.api.v1.authController.authorize,
+  controllers.api.v1.authController.checkRole,
+  controllers.api.v1.carController.showDetail);
+
 apiRouter.get("/api/v1/cars",controllers.api.v1.carController.list);
 
 

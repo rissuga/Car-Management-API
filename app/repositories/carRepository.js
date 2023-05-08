@@ -22,23 +22,7 @@ module.exports = {
   },
 
   find(id) {
-    return Car.findByPk(id,{
-      include: [
-        {
-          model: User,
-          as: "created",
-        },
-        {
-          model: User,
-          as: "updated",
-        },
-        {
-          model: User,
-          as: "deleted",
-        },
-      ],
-      attributes: { exclude: ["createdBy", "updatedBy", "deletedBy"] },
-    });
+    return Car.findByPk(id);
   },
 
   findAll() {
