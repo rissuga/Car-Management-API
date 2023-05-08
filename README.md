@@ -4,7 +4,7 @@ Berikut merupakan dokumentasi API dari Binar Car Rental yang menyediakan CRUD ya
 
 ## ERD
 
-![Users One to Many Cars](https://user-images.githubusercontent.com/72052154/236868111-b54adc84-1dd2-4628-b76a-46d6ddd30690.png)
+![ERD](https://user-images.githubusercontent.com/72052154/236868467-8ed8f722-bfbb-49c2-a668-a48c3bff1d66.png)
 
 ### Email: superadmin@gmail.com
 
