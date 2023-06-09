@@ -25,24 +25,56 @@ http://{{host}}/api/v1/docs
 14. sequelize-cli
 15. swagger-ui-express
 
-## How to run
-1. Install dependensi 
-    > npm i
-2. Set your database in config>database
-    >const {
-    >DB_USERNAME = "postgres",
-    >DB_PASSWORD = "12345678",
-    >DB_HOST = "127.0.0.1",
-    >DB_NAME = "db_be_auth",
-    >} = process.env;
- 3. Create Database
-    >npm run db:create
- 5. Migrating the model
-     >npm run db:migrate
- 7. Using seeder 
-    npm run db:seed
- 8. Running project on development
-    >npm run dev
+## How To Run
+
+1. Install Library
+
+```bash
+npm i
+```
+
+2. Create an .env file on root folder
+
+```bash
+DB_USERNAME = ''
+DB_PASSWORD = ''
+DB_NAME = ''
+DB_HOST = ''
+DB_PORT =
+DB_DIALECT = 'postgres'
+
+CLOUD_NAME = ''
+API_KEY = ''
+API_SECRET = ''
+CLODINARY_SECURE = true
+
+JWT_SIGNATURE_KEY = "rahasia"
+```
+
+3. Create Database
+
+```bash
+npm run db:create
+```
+
+4. Migrating the model
+
+```bash
+npm run db:migrate
+```
+
+5. Using seeder
+
+```bash
+npm run db:seed
+```
+
+6. Running Project on development
+
+```bash
+npm run develop
+```
+
 
 ### Email: superadmin@gmail.com
 

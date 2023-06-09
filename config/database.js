@@ -1,14 +1,10 @@
-/**
- * @file Manages database connection configuration.
- * @author Fikri Rahmat Nurhidayat
- */
+require("dotenv").config();
 
-/** Destruct environment variable to get database configuration */
 const {
-  DB_USERNAME = "postgres",
-  DB_PASSWORD = "12345678",
-  DB_HOST = "127.0.0.1",
-  DB_NAME = "db_be_auth",
+  DB_USERNAME = "",
+  DB_PASSWORD = "",
+  DB_HOST = "",
+  DB_NAME = "",
 } = process.env;
 
 module.exports = {

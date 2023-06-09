@@ -1,6 +1,8 @@
 const userRepository = require("../repositories/userRepository");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {JWT_SIGNATURE_KEY} = process.env;
+
 
 const encryptPassword = async (password) => {
   try{
@@ -21,7 +23,7 @@ const comparePassword = async (password, encryptedPassword) =>{
 }
 
 const createToken = (payload) => {
-  return jwt.sign(payload,"secret");
+  return jwt.sign(payload,JWT_SIGNATURE_KEY);
 }
 
 module.exports = {
