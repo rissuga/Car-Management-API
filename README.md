@@ -28,9 +28,21 @@ http://{{host}}/api/v1/docs
 ## How to run
 1. Install dependensi 
     > npm i
-
-
-
+2. Set your database in config>database
+    >const {
+    >DB_USERNAME = "postgres",
+    >DB_PASSWORD = "12345678",
+    >DB_HOST = "127.0.0.1",
+    >DB_NAME = "db_be_auth",
+    >} = process.env;
+ 3. Create Database
+    >npm run db:create
+ 5. Migrating the model
+     >npm run db:migrate
+ 7. Using seeder 
+    npm run db:seed
+ 8. Running project on development
+    >npm run dev
 
 ### Email: superadmin@gmail.com
 
