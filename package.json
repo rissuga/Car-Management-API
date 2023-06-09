@@ -15,6 +15,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.36.4",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
@@ -22,6 +23,7 @@
     "pg": "^8.7.3",
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.6.1",
     "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {

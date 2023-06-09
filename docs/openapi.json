@@ -1105,8 +1105,7 @@
                 "type": "object",
                 "required": [
                   "name",
-                  "price",
-                  "size",
+                  "available",
                   "image"
                 ],
                 "properties": {

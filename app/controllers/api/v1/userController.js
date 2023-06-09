@@ -5,7 +5,7 @@
 const userService = require("../../../services/userService");
 
 module.exports = {
-  list(req, res) {
+  list(req, res) {k
     userService
       .list()
       .then(({ data, count }) => {
@@ -46,6 +46,7 @@ module.exports = {
       .then(() => {
         res.status(200).json({
           status: "OK",
+
         });
       })
       .catch((err) => {
