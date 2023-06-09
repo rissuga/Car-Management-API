@@ -6,7 +6,7 @@ This project is about implemetation of Design Pattern with Service Repository, A
 
 ![ERD](https://user-images.githubusercontent.com/72052154/236868467-8ed8f722-bfbb-49c2-a668-a48c3bff1d66.png)
 ## Accessing API Documentation
-http://{{host}}/api/v1/docs
+http://{{host}}/api-docs/
 
 ## Library
 1. cloudinary
