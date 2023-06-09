@@ -1,10 +1,48 @@
 # Binar: Express.js
 
-Berikut merupakan dokumentasi API dari Binar Car Rental yang menyediakan CRUD yang hanya dilakukan oleh superadmin dan admin. Tidak hanya itu pada dokumentasi ini juga menyediakan API login dan register untuk user dan terdapat fitur create admin yang hanya bisa dilakukan oleh superadmin
+This project is about implemetation of Design Pattern with Service Repository, Authentication with JWT Token and API documentation with standarized Open API which used Swagger UI.
 
-## ERD
+## Database Diagram
 
 ![ERD](https://user-images.githubusercontent.com/72052154/236868467-8ed8f722-bfbb-49c2-a668-a48c3bff1d66.png)
+## Accessing API Documentation
+http://{{host}}/api/v1/docs
+
+## Library
+1. cloudinary
+2. cookie-parser
+3. cors
+4. dotenv
+5. ejs
+6. express
+7. multer
+8. nodemon
+9. pg
+10. sequelize
+11. uuid
+12. bycript
+13. jsonwebtoken
+14. sequelize-cli
+15. swagger-ui-express
+
+## How to run
+1. Install dependensi 
+    > npm i
+2. Set your database in config>database
+    >const {
+    >DB_USERNAME = "postgres",
+    >DB_PASSWORD = "12345678",
+    >DB_HOST = "127.0.0.1",
+    >DB_NAME = "db_be_auth",
+    >} = process.env;
+ 3. Create Database
+    >npm run db:create
+ 5. Migrating the model
+     >npm run db:migrate
+ 7. Using seeder 
+    npm run db:seed
+ 8. Running project on development
+    >npm run dev
 
 ### Email: superadmin@gmail.com
 
